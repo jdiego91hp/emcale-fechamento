@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabaseClient'
-import { Lock, Mail, Loader2, AlertCircle } from 'lucide-react'
+import { Lock, Mail, Loader2, AlertCircle, Eye, EyeOff } from 'lucide-react'
 import Image from 'next/image'
 
 export default function AdminLogin() {
@@ -12,116 +12,130 @@ export default function AdminLogin() {
 
   const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
+  const [showPwd,  setShowPwd]  = useState(false)
   const [loading,  setLoading]  = useState(false)
   const [error,    setError]    = useState('')
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
-    setLoading(true)
-    setError('')
-
+    setLoading(true); setError('')
     const { error } = await supabase.auth.signInWithPassword({ email, password })
-
-    if (error) {
-      setError('E-mail ou senha incorretos.')
-      setLoading(false)
-      return
-    }
-
-    // Fix 5: router.refresh() sincroniza o estado do servidor com o cookie recém-criado
-    // Necessário para que o middleware reconheça a sessão imediatamente
+    if (error) { setError('E-mail ou senha incorretos.'); setLoading(false); return }
     router.refresh()
     router.push('/admin')
   }
 
   return (
-    <div
-      className="min-h-dvh flex flex-col items-center justify-center px-4"
-      style={{ background: 'linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%)' }}
-    >
-      <div className="w-full max-w-sm">
+    <div className="min-h-dvh flex flex-col" style={{ background: 'var(--gray-50)' }}>
 
-        {/* Logo + título */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-white/15 mb-4 backdrop-blur relative overflow-hidden">
-            <span className="text-white font-black text-3xl">E</span>
+      {/* Topo colorido */}
+      <div className="surface-green relative overflow-hidden flex-shrink-0" style={{ height: 260 }}>
+        {/* Formas decorativas */}
+        <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full opacity-15"
+             style={{ background: 'var(--yellow)' }} />
+        <div className="absolute top-10 -left-8 w-36 h-36 rounded-full opacity-10"
+             style={{ background: 'white' }} />
+        <div className="absolute bottom-0 right-20 w-20 h-20 rounded-full opacity-10"
+             style={{ background: 'var(--green-light)' }} />
+
+        {/* Logo centralizada */}
+        <div className="relative h-full flex flex-col items-center justify-center gap-4 px-6">
+          <div className="relative w-20 h-20 rounded-3xl overflow-hidden flex-shrink-0"
+               style={{ background: 'rgba(255,255,255,.2)', boxShadow: '0 8px 32px rgba(0,0,0,.2)' }}>
+            <span className="absolute inset-0 flex items-center justify-center text-white font-black text-3xl z-10">E</span>
             <Image
-              src="/logo-emcale.png"
-              alt="Emcale"
-              width={56}
-              height={56}
-              className="object-contain absolute inset-0 w-full h-full"
+              src="/logo-emcale.png" alt="Emcale" fill
+              className="object-contain z-20 relative"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
           </div>
-          <h1
-            className="text-white text-2xl font-extrabold"
-            style={{ fontFamily: 'var(--font-display)' }}
-          >
-            Área Administrativa
-          </h1>
-          <p className="text-white/60 text-sm mt-1">
-            Sistema de Fechamento Técnico Emcale
-          </p>
+          <div className="text-center">
+            <h1 className="text-white text-2xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
+              Emcale
+            </h1>
+            <p className="text-white/60 text-sm">Área Administrativa</p>
+          </div>
         </div>
+      </div>
 
-        {/* Card de login */}
-        <div className="bg-white rounded-3xl p-6 shadow-2xl">
+      {/* Card de login — sobrepõe o topo */}
+      <div className="flex-1 flex flex-col px-5 -mt-8 relative z-10">
+        <div className="bg-white rounded-3xl p-6 flex-shrink-0"
+             style={{ boxShadow: '0 -4px 40px rgba(0,0,0,.10)' }}>
+
+          <h2 className="text-lg font-extrabold mb-1" style={{ fontFamily: 'var(--font-display)', color: 'var(--gray-900)' }}>
+            Entrar no sistema
+          </h2>
+          <p className="text-sm mb-5" style={{ color: 'var(--gray-400)' }}>
+            Acesso restrito a administradores
+          </p>
+
           <form onSubmit={handleLogin} className="space-y-4">
-
-            <div>
+            <div className="input-group">
               <label className="label">E-mail</label>
               <div className="relative">
-                <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Mail size={17} className="absolute left-4 top-1/2 -translate-y-1/2"
+                      style={{ color: 'var(--gray-400)' }} />
                 <input
-                  className="input pl-9"
+                  className="input pl-11"
                   type="email"
                   placeholder="admin@emcale.com.br"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                   required
                   autoComplete="email"
                 />
               </div>
             </div>
 
-            <div>
+            <div className="input-group">
               <label className="label">Senha</label>
               <div className="relative">
-                <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Lock size={17} className="absolute left-4 top-1/2 -translate-y-1/2"
+                      style={{ color: 'var(--gray-400)' }} />
                 <input
-                  className="input pl-9"
-                  type="password"
+                  className="input pl-11 pr-12"
+                  type={showPwd ? 'text' : 'password'}
                   placeholder="••••••••"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
                   required
                   autoComplete="current-password"
                 />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 btn-icon"
+                  onClick={() => setShowPwd(!showPwd)}
+                  style={{ color: 'var(--gray-400)' }}
+                >
+                  {showPwd ? <EyeOff size={17} /> : <Eye size={17} />}
+                </button>
               </div>
             </div>
 
             {error && (
-              <div className="alert-error">
-                <AlertCircle size={15} className="shrink-0 mt-0.5" />
+              <div className="alert-error anim-fade-in">
+                <AlertCircle size={15} className="flex-shrink-0 mt-0.5" />
                 {error}
               </div>
             )}
 
             <button
               type="submit"
-              className="btn-primary w-full py-3.5"
+              className="btn-primary w-full text-base"
+              style={{ minHeight: 58, borderRadius: 'var(--radius-xl)' }}
               disabled={loading}
             >
               {loading
-                ? <><Loader2 size={17} className="animate-spin-slow" /> Entrando...</>
-                : <><Lock size={17} /> Entrar</>
-              }
+                ? <><Loader2 size={20} className="spin" /> Entrando...</>
+                : <><Lock size={20} /> Entrar</>}
             </button>
-
           </form>
         </div>
 
+        <p className="text-center text-xs mt-6" style={{ color: 'var(--gray-400)' }}>
+          Sistema de Fechamento Técnico Emcale
+        </p>
       </div>
     </div>
   )
