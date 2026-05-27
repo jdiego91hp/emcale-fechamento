@@ -499,7 +499,7 @@ export default function TechnicianPage() {
                 <span className="badge badge-gray">opcional</span>
               </div>
               <textarea className="input" rows={3}
-                        placeholder="Descreva detalhes importantes do atendimento..."
+                        placeholder="Descreva se houve alterações no projeto original. Ex: equipagem de poste, localização de CEO, criação de CEO, alteração de cabo, rota de cabo etc."
                         value={notes} onChange={e => setNotes(e.target.value)}
                         style={{ minHeight: 90 }} />
             </div>
@@ -512,7 +512,7 @@ export default function TechnicianPage() {
             )}
 
             {/* Botão finalizar */}
-            <button className="btn-primary w-full" onClick={handleSubmit} disabled={submitting}
+            <button className="btn-primary w-full flex items-center justify-center gap-2" onClick={handleSubmit} disabled={submitting}
                     style={{ minHeight: 62, borderRadius: 'var(--radius-xl)', fontSize: '1.0625rem' }}>
               {submitting
                 ? <><Loader2 size={22} className="spin" /> Fechando ticket...</>
