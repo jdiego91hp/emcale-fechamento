@@ -2,11 +2,10 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Emcale — Fechamento Técnico',
-  description: 'Sistema de Fechamento de Chamados Técnicos Emcale',
+  title: 'Emcale — Fechar Ticket',
+  description: 'Sistema de Fechamento de Chamados Técnicos — Emcale Serviços em Redes Ópticas',
 }
 
-// Fix 4: viewport exportado separadamente conforme Next.js 14+ exige
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
