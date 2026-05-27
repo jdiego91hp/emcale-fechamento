@@ -185,11 +185,6 @@ export default function TechnicianPage() {
 
       {/* ── Header ── */}
       <header className="surface-brand relative overflow-hidden">
-        <div className="absolute -top-10 -right-10 w-44 h-44 rounded-full opacity-10"
-             style={{ background: 'var(--yellow)' }} />
-        <div className="absolute top-8 -left-6 w-28 h-28 rounded-full opacity-05"
-             style={{ background: 'white' }} />
-
         <div className="relative px-5 pt-10 pb-1">
           <div className="flex items-center gap-3">
             {/* Logo */}
