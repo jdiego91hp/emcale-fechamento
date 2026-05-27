@@ -87,6 +87,9 @@ export default function TechnicianPage() {
   const [ticket, setTicket]           = useState<TicketData | null>(null)
   const [searching, setSearching]     = useState(false)
   const [searchError, setSearchError] = useState('')
+  const [suggestions, setSuggestions] = useState<TicketData[]>([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false)
 
   const [techName, setTechName] = useState('')
   const [notes, setNotes]       = useState('')
@@ -106,6 +109,38 @@ export default function TechnicianPage() {
   const [submitError, setSubmitError] = useState('')
   const [pdfUrl, setPdfUrl]           = useState('')
   const [closureId, setClosureId]     = useState('')
+
+  // Busca sugestões enquanto digita
+  async function handleInputChange(value: string) {
+    setTicketInput(value)
+    setSearchError('')
+    
+    if (value.trim().length < 2) {
+      setSuggestions([])
+      setShowSuggestions(false)
+      return
+    }
+    
+    setLoadingSuggestions(true)
+    try {
+      const res = await fetch(`/api/tickets/search?q=${encodeURIComponent(value.trim())}`)
+      const data = await res.json()
+      if (res.ok && data.tickets) {
+        setSuggestions(data.tickets)
+        setShowSuggestions(data.tickets.length > 0)
+      }
+    } catch {
+      setSuggestions([])
+    } finally {
+      setLoadingSuggestions(false)
+    }
+  }
+
+  function selectSuggestion(t: TicketData) {
+    setTicketInput(t.ticket_id)
+    setSuggestions([])
+    setShowSuggestions(false)
+  }
 
   async function handleSearch() {
     if (!ticketInput.trim()) return

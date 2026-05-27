@@ -22,6 +22,49 @@ async function getAccessToken(): Promise<string> {
  *
  * Linha 1 = cabeçalho (ignorada).
  */
+/**
+ * Busca tickets que começam com o texto digitado (para autocomplete).
+ * Retorna até 10 resultados.
+ */
+export async function searchTickets(query: string): Promise<TicketData[]> {
+  try {
+    const token         = await getAccessToken()
+    const spreadsheetId = process.env.GOOGLE_SHEETS_ID!
+    const range         = encodeURIComponent('Tickets!A2:C')
+    const url           = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`
+
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: 'no-store',
+    })
+
+    if (!res.ok) {
+      const body = await res.text()
+      throw new Error(`Google Sheets API ${res.status}: ${body}`)
+    }
+
+    const json = await res.json()
+    const rows: string[][] = json.values ?? []
+
+    if (rows.length === 0) return []
+
+    const queryUpper = query.toUpperCase().trim()
+    const matches = rows
+      .filter((r) => r[0]?.toString().toUpperCase().trim().includes(queryUpper))
+      .slice(0, 10)
+      .map((row) => ({
+        ticket_id:   row[0]?.toString().trim() ?? '',
+        ticket_name: row[1]?.toString().trim() ?? '',
+        company:     row[2]?.toString().trim() ?? '',
+      }))
+
+    return matches
+  } catch (error: any) {
+    console.error('[googleSheets.searchTickets]', error)
+    throw new Error(`Falha ao consultar planilha: ${error.message}`)
+  }
+}
+
 export async function getTicketById(ticketId: string): Promise<TicketData | null> {
   try {
     const token         = await getAccessToken()
