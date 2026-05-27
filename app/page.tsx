@@ -194,7 +194,7 @@ export default function TechnicianPage() {
           <div className="flex items-center gap-3">
             {/* Logo */}
             <div className="relative w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0"
-                 style={{ background: 'rgba(255,255,255,.12)', boxShadow: '0 4px 16px rgba(0,0,0,.25)' }}>
+                 style={{ boxShadow: '0 4px 16px rgba(0,0,0,.25)' }}>
               <span className="absolute inset-0 flex items-center justify-center text-white font-black text-2xl z-10">E</span>
               <Image src="/logo-emcale.png" alt="Emcale" fill
                      className="object-contain z-20 relative"

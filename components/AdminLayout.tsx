@@ -71,7 +71,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="px-5 py-6 flex items-center gap-3"
              style={{ borderBottom: '1px solid rgba(255,255,255,.07)' }}>
           <div className="relative w-12 h-12 rounded-2xl flex-shrink-0 overflow-hidden"
-               style={{ background: 'rgba(255,255,255,.12)', boxShadow: '0 4px 16px rgba(0,0,0,.3)' }}>
+               style={{ boxShadow: '0 4px 16px rgba(0,0,0,.3)' }}>
             <span className="absolute inset-0 flex items-center justify-center text-white font-black text-xl z-10">E</span>
             <Image src="/logo-emcale.png" alt="Emcale" fill
                    className="object-contain z-20 relative"

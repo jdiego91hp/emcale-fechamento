@@ -39,7 +39,6 @@ export default function AdminLogin() {
         <div className="relative h-full flex flex-col items-center justify-center gap-5 px-6 py-12">
           <div className="relative w-24 h-24 rounded-3xl overflow-hidden"
                style={{
-                 background: 'rgba(255,255,255,.15)',
                  boxShadow: '0 8px 32px rgba(0,0,0,.25), 0 0 0 1px rgba(255,255,255,.1)',
                }}>
             <span className="absolute inset-0 flex items-center justify-center text-white font-black text-4xl z-10">E</span>
