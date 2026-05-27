@@ -189,8 +189,8 @@ export default function TechnicianPage() {
           <div className="flex items-center gap-3">
             {/* Logo */}
             <div className="relative w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0"
-                 style={{ background: 'rgba(255,255,255,.12)', boxShadow: '0 4px 16px rgba(0,0,0,.25)' }}>
-              <span className="absolute inset-0 flex items-center justify-center text-white font-black text-2xl z-10">E</span>
+                 style={{ background: 'white', boxShadow: '0 4px 16px rgba(0,0,0,.25)' }}>
+              <span className="absolute inset-0 flex items-center justify-center font-black text-2xl z-10" style={{ color: 'var(--green)' }}>E</span>
               <Image src="/logo-emcale.png" alt="Emcale" fill
                      className="object-contain z-20 relative"
                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
@@ -250,10 +250,8 @@ export default function TechnicianPage() {
                 <label className="label">ID do Ticket</label>
                 <div className="flex gap-2">
                   <div className="relative flex-1">
-                    <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2"
-                            style={{ color: 'var(--gray-400)' }} />
                     <input
-                      className="input pl-11"
+                      className="input"
                       placeholder="Ex: TKT-001"
                       value={ticketInput}
                       onChange={e => setTicketInput(e.target.value)}
@@ -264,7 +262,7 @@ export default function TechnicianPage() {
                     />
                   </div>
                   <button
-                    className="btn-green"
+                    className="btn-green flex items-center justify-center"
                     style={{ minWidth: 58, borderRadius: 'var(--radius-lg)' }}
                     onClick={handleSearch}
                     disabled={searching || !ticketInput.trim()}
